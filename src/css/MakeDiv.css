@@ -1,0 +1,10 @@
+.divStyle{
+  display: inline-block; 
+  width: 240px; 
+  height: 260px; 
+  margin: 8px; 
+  z-index:1; 
+  border-radius: 8px; 
+  padding: 16px;
+  text-align: center;
+}

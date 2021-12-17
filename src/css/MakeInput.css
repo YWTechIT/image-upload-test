@@ -1,0 +1,15 @@
+.inputStyle{
+  color: #dedede;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #343434;
+  width: 200px;
+  height: 36px;
+  padding: 8px;
+  border: 1.2px solid #dedede;
+  opacity: 1;
+}
+
+input::-webkit-calendar-picker-indicator {
+    opacity: 1
+}
