@@ -17,7 +17,7 @@ function PreviewImage(e) {
         const reader = new FileReader();
         reader.addEventListener("load", function (e) {
             const img = MakeImg(e);
-            const imgDiv = MakeImgDiv(img);    
+            const imgDiv = MakeImgDiv(img);
             const div = MakeDiv(imgDiv);
             previewZone.appendChild(div);
         });
@@ -41,21 +41,21 @@ function MakeImgDiv(img) {
     return div;
 }
 
-function MakeInput(idx){
+function MakeInput(idx) {
     const input = document.createElement("input");
-    input.setAttribute('list', `address`);
-    input.name = `image-content__image${idx+1}`;
+    input.setAttribute("list", `address`);
+    input.name = `image-content__image${idx + 1}`;
     input.id = `image-content__image${idx + 1}`;
     input.classList.add("inputStyle");
     return input;
 }
 
-function ShowCompleteBox(){
+function ShowCompleteBox() {
     const completeBox = document.querySelector(".image-content__completeBox");
     completeBox.style.display = "block";
 }
 
-function HiddenDropZone(){
+function HiddenDropZone() {
     const dropZone = document.querySelector(".image-content__label");
     dropZone.style.display = "none";
 }
@@ -72,236 +72,924 @@ function getEXIFData(img) {
 }
 
 const dummyAddress = [
-    ["서울특별시", "종로구"],
-    ["서울특별시", "중구"],
-    ["서울특별시", "용산구"],
-    ["서울특별시", "성동구"],
-    ["서울특별시", "광진구"],
-    ["서울특별시", "동대문구"],
-    ["서울특별시", "중랑구"],
-    ["서울특별시", "성북구"],
-    ["서울특별시", "강북구"],
-    ["서울특별시", "도봉구"],
-    ["서울특별시", "노원구"],
-    ["서울특별시", "은평구"],
-    ["서울특별시", "서대문구"],
-    ["서울특별시", "마포구"],
-    ["서울특별시", "양천구"],
-    ["서울특별시", "강서구"],
-    ["서울특별시", "구로구"],
-    ["서울특별시", "금천구"],
-    ["서울특별시", "영등포구"],
-    ["서울특별시", "동작구"],
-    ["서울특별시", "관악구"],
-    ["서울특별시", "서초구"],
-    ["서울특별시", "강남구"],
-    ["서울특별시", "송파구"],
-    ["서울특별시", "강동구"],
-    ["부산광역시", "중구"],
-    ["부산광역시", "서구"],
-    ["부산광역시", "동구"],
-    ["부산광역시", "영도구"],
-    ["부산광역시", "부산진구"],
-    ["부산광역시", "동래구"],
-    ["부산광역시", "남구"],
-    ["부산광역시", "북구"],
-    ["부산광역시", "해운대구"],
-    ["부산광역시", "사하구"],
-    ["부산광역시", "금정구"],
-    ["부산광역시", "강서구"],
-    ["부산광역시", "연제구"],
-    ["부산광역시", "수영구"],
-    ["부산광역시", "사상구"],
-    ["부산광역시", "기장군"],
-    ["대구광역시", "중구"],
-    ["대구광역시", "동구"],
-    ["대구광역시", "서구"],
-    ["대구광역시", "남구"],
-    ["대구광역시", "북구"],
-    ["대구광역시", "수성구"],
-    ["대구광역시", "달서구"],
-    ["대구광역시", "달성군"],
-    ["인천광역시", "중구"],
-    ["인천광역시", "동구"],
-    ["인천광역시", "미추홀구"],
-    ["인천광역시", "연수구"],
-    ["인천광역시", "남동구"],
-    ["인천광역시", "부평구"],
-    ["인천광역시", "계양구"],
-    ["인천광역시", "서구"],
-    ["인천광역시", "강화군"],
-    ["인천광역시", "옹진군"],
-    ["광주광역시", "동구"],
-    ["광주광역시", "서구"],
-    ["광주광역시", "남구"],
-    ["광주광역시", "북구"],
-    ["광주광역시", "광산구"],
-    ["대전광역시", "동구"],
-    ["대전광역시", "중구"],
-    ["대전광역시", "서구"],
-    ["대전광역시", "유성구"],
-    ["대전광역시", "대덕구"],
-    ["울산광역시", "중구"],
-    ["울산광역시", "남구"],
-    ["울산광역시", "동구"],
-    ["울산광역시", "북구"],
-    ["울산광역시", "울주군"],
-    ["세종특별자치시", "세종특별자치시"],
-    ["경기도", "수원시"],
-    ["경기도", "성남시"],
-    ["경기도", "고양시"],
-    ["경기도", "용인시"],
-    ["경기도", "부천시"],
-    ["경기도", "안산시"],
-    ["경기도", "안양시"],
-    ["경기도", "남양주시"],
-    ["경기도", "화성시"],
-    ["경기도", "평택시"],
-    ["경기도", "의정부시"],
-    ["경기도", "시흥시"],
-    ["경기도", "파주시"],
-    ["경기도", "광명시"],
-    ["경기도", "김포시"],
-    ["경기도", "군포시"],
-    ["경기도", "광주시"],
-    ["경기도", "이천시"],
-    ["경기도", "양주시"],
-    ["경기도", "오산시"],
-    ["경기도", "구리시"],
-    ["경기도", "안성시"],
-    ["경기도", "포천시"],
-    ["경기도", "의왕시"],
-    ["경기도", "하남시"],
-    ["경기도", "여주시"],
-    ["경기도", "양평군"],
-    ["경기도", "동두천시"],
-    ["경기도", "과천시"],
-    ["경기도", "가평군"],
-    ["경기도", "연천군"],
-    ["강원도", "춘천시"],
-    ["강원도", "원주시"],
-    ["강원도", "강릉시"],
-    ["강원도", "동해시"],
-    ["강원도", "태백시"],
-    ["강원도", "속초시"],
-    ["강원도", "삼척시"],
-    ["강원도", "홍천군"],
-    ["강원도", "횡성군"],
-    ["강원도", "영월군"],
-    ["강원도", "평창군"],
-    ["강원도", "정선군"],
-    ["강원도", "철원군"],
-    ["강원도", "화천군"],
-    ["강원도", "양구군"],
-    ["강원도", "인제군"],
-    ["강원도", "고성군"],
-    ["강원도", "양양군"],
-    ["충청북도", "청주시"],
-    ["충청북도", "충주시"],
-    ["충청북도", "제천시"],
-    ["충청북도", "보은군"],
-    ["충청북도", "옥천군"],
-    ["충청북도", "영동군"],
-    ["충청북도", "진천군"],
-    ["충청북도", "괴산군"],
-    ["충청북도", "음성군"],
-    ["충청북도", "단양군"],
-    ["충청북도", "증평군"],
-    ["충청남도", "천안시"],
-    ["충청남도", "공주시"],
-    ["충청남도", "보령시"],
-    ["충청남도", "아산시"],
-    ["충청남도", "서산시"],
-    ["충청남도", "논산시"],
-    ["충청남도", "계룡시"],
-    ["충청남도", "당진시"],
-    ["충청남도", "금산군"],
-    ["충청남도", "부여군"],
-    ["충청남도", "서천군"],
-    ["충청남도", "청양군"],
-    ["충청남도", "홍성군"],
-    ["충청남도", "예산군"],
-    ["충청남도", "태안군"],
-    ["전라북도", "전주시"],
-    ["전라북도", "군산시"],
-    ["전라북도", "익산시"],
-    ["전라북도", "정읍시"],
-    ["전라북도", "남원시"],
-    ["전라북도", "김제시"],
-    ["전라북도", "완주군"],
-    ["전라북도", "진안군"],
-    ["전라북도", "무주군"],
-    ["전라북도", "장수군"],
-    ["전라북도", "임실군"],
-    ["전라북도", "순창군"],
-    ["전라북도", "고창군"],
-    ["전라북도", "부안군"],
-    ["전라남도", "목포시"],
-    ["전라남도", "여수시"],
-    ["전라남도", "순천시"],
-    ["전라남도", "나주시"],
-    ["전라남도", "광양시"],
-    ["전라남도", "담양군"],
-    ["전라남도", "곡성군"],
-    ["전라남도", "구례군"],
-    ["전라남도", "고흥군"],
-    ["전라남도", "보성군"],
-    ["전라남도", "화순군"],
-    ["전라남도", "장흥군"],
-    ["전라남도", "강진군"],
-    ["전라남도", "해남군"],
-    ["전라남도", "영암군"],
-    ["전라남도", "무안군"],
-    ["전라남도", "함평군"],
-    ["전라남도", "영광군"],
-    ["전라남도", "장성군"],
-    ["전라남도", "완도군"],
-    ["전라남도", "진도군"],
-    ["전라남도", "신안군"],
-    ["경상북도", "포항시"],
-    ["경상북도", "경주시"],
-    ["경상북도", "김천시"],
-    ["경상북도", "안동시"],
-    ["경상북도", "구미시"],
-    ["경상북도", "영주시"],
-    ["경상북도", "영천시"],
-    ["경상북도", "상주시"],
-    ["경상북도", "문경시"],
-    ["경상북도", "경산시"],
-    ["경상북도", "군위군"],
-    ["경상북도", "의성군"],
-    ["경상북도", "청송군"],
-    ["경상북도", "영양군"],
-    ["경상북도", "영덕군"],
-    ["경상북도", "청도군"],
-    ["경상북도", "고령군"],
-    ["경상북도", "성주군"],
-    ["경상북도", "칠곡군"],
-    ["경상북도", "예천군"],
-    ["경상북도", "봉화군"],
-    ["경상북도", "울진군"],
-    ["경상북도", "울릉군"],
-    ["경상남도", "창원시"],
-    ["경상남도", "진주시"],
-    ["경상남도", "통영시"],
-    ["경상남도", "사천시"],
-    ["경상남도", "김해시"],
-    ["경상남도", "밀양시"],
-    ["경상남도", "거제시"],
-    ["경상남도", "양산시"],
-    ["경상남도", "의령군"],
-    ["경상남도", "함안군"],
-    ["경상남도", "창녕군"],
-    ["경상남도", "고성군"],
-    ["경상남도", "남해군"],
-    ["경상남도", "하동군"],
-    ["경상남도", "산청군"],
-    ["경상남도", "함양군"],
-    ["경상남도", "거창군"],
-    ["경상남도", "합천군"],
-    ["제주특별자치도", "제주시"],
-    ["제주특별자치도", "서귀포시"],
-]
+    {
+        wideAddr: "서울특별시",
+        localAddr: "종로구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "중구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "용산구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "성동구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "광진구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "동대문구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "중랑구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "성북구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "강북구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "도봉구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "노원구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "은평구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "서대문구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "마포구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "양천구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "강서구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "구로구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "금천구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "영등포구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "동작구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "관악구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "서초구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "강남구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "송파구",
+    },
+    {
+        wideAddr: "서울특별시",
+        localAddr: "강동구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "중구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "서구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "동구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "영도구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "부산진구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "동래구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "남구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "북구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "해운대구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "사하구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "금정구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "강서구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "연제구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "수영구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "사상구",
+    },
+    {
+        wideAddr: "부산광역시",
+        localAddr: "기장군",
+    },
+    {
+        wideAddr: "대구광역시",
+        localAddr: "중구",
+    },
+    {
+        wideAddr: "대구광역시",
+        localAddr: "동구",
+    },
+    {
+        wideAddr: "대구광역시",
+        localAddr: "서구",
+    },
+    {
+        wideAddr: "대구광역시",
+        localAddr: "남구",
+    },
+    {
+        wideAddr: "대구광역시",
+        localAddr: "북구",
+    },
+    {
+        wideAddr: "대구광역시",
+        localAddr: "수성구",
+    },
+    {
+        wideAddr: "대구광역시",
+        localAddr: "달서구",
+    },
+    {
+        wideAddr: "대구광역시",
+        localAddr: "달성군",
+    },
+    {
+        wideAddr: "인천광역시",
+        localAddr: "중구",
+    },
+    {
+        wideAddr: "인천광역시",
+        localAddr: "동구",
+    },
+    {
+        wideAddr: "인천광역시",
+        localAddr: "미추홀구",
+    },
+    {
+        wideAddr: "인천광역시",
+        localAddr: "연수구",
+    },
+    {
+        wideAddr: "인천광역시",
+        localAddr: "남동구",
+    },
+    {
+        wideAddr: "인천광역시",
+        localAddr: "부평구",
+    },
+    {
+        wideAddr: "인천광역시",
+        localAddr: "계양구",
+    },
+    {
+        wideAddr: "인천광역시",
+        localAddr: "서구",
+    },
+    {
+        wideAddr: "인천광역시",
+        localAddr: "강화군",
+    },
+    {
+        wideAddr: "인천광역시",
+        localAddr: "옹진군",
+    },
+    {
+        wideAddr: "광주광역시",
+        localAddr: "동구",
+    },
+    {
+        wideAddr: "광주광역시",
+        localAddr: "서구",
+    },
+    {
+        wideAddr: "광주광역시",
+        localAddr: "남구",
+    },
+    {
+        wideAddr: "광주광역시",
+        localAddr: "북구",
+    },
+    {
+        wideAddr: "광주광역시",
+        localAddr: "광산구",
+    },
+    {
+        wideAddr: "대전광역시",
+        localAddr: "동구",
+    },
+    {
+        wideAddr: "대전광역시",
+        localAddr: "중구",
+    },
+    {
+        wideAddr: "대전광역시",
+        localAddr: "서구",
+    },
+    {
+        wideAddr: "대전광역시",
+        localAddr: "유성구",
+    },
+    {
+        wideAddr: "대전광역시",
+        localAddr: "대덕구",
+    },
+    {
+        wideAddr: "울산광역시",
+        localAddr: "중구",
+    },
+    {
+        wideAddr: "울산광역시",
+        localAddr: "남구",
+    },
+    {
+        wideAddr: "울산광역시",
+        localAddr: "동구",
+    },
+    {
+        wideAddr: "울산광역시",
+        localAddr: "북구",
+    },
+    {
+        wideAddr: "울산광역시",
+        localAddr: "울주군",
+    },
+    {
+        wideAddr: "세종특별자치시",
+        localAddr: "세종특별자치시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "수원시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "성남시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "고양시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "용인시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "부천시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "안산시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "안양시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "남양주시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "화성시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "평택시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "의정부시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "시흥시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "파주시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "광명시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "김포시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "군포시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "광주시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "이천시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "양주시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "오산시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "구리시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "안성시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "포천시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "의왕시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "하남시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "여주시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "양평군",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "동두천시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "과천시",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "가평군",
+    },
+    {
+        wideAddr: "경기도",
+        localAddr: "연천군",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "춘천시",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "원주시",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "강릉시",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "동해시",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "태백시",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "속초시",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "삼척시",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "홍천군",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "횡성군",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "영월군",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "평창군",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "정선군",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "철원군",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "화천군",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "양구군",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "인제군",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "고성군",
+    },
+    {
+        wideAddr: "강원도",
+        localAddr: "양양군",
+    },
+    {
+        wideAddr: "충청북도",
+        localAddr: "청주시",
+    },
+    {
+        wideAddr: "충청북도",
+        localAddr: "충주시",
+    },
+    {
+        wideAddr: "충청북도",
+        localAddr: "제천시",
+    },
+    {
+        wideAddr: "충청북도",
+        localAddr: "보은군",
+    },
+    {
+        wideAddr: "충청북도",
+        localAddr: "옥천군",
+    },
+    {
+        wideAddr: "충청북도",
+        localAddr: "영동군",
+    },
+    {
+        wideAddr: "충청북도",
+        localAddr: "진천군",
+    },
+    {
+        wideAddr: "충청북도",
+        localAddr: "괴산군",
+    },
+    {
+        wideAddr: "충청북도",
+        localAddr: "음성군",
+    },
+    {
+        wideAddr: "충청북도",
+        localAddr: "단양군",
+    },
+    {
+        wideAddr: "충청북도",
+        localAddr: "증평군",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "천안시",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "공주시",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "보령시",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "아산시",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "서산시",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "논산시",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "계룡시",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "당진시",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "금산군",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "부여군",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "서천군",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "청양군",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "홍성군",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "예산군",
+    },
+    {
+        wideAddr: "충청남도",
+        localAddr: "태안군",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "전주시",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "군산시",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "익산시",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "정읍시",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "남원시",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "김제시",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "완주군",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "진안군",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "무주군",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "장수군",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "임실군",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "순창군",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "고창군",
+    },
+    {
+        wideAddr: "전라북도",
+        localAddr: "부안군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "목포시",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "여수시",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "순천시",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "나주시",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "광양시",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "담양군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "곡성군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "구례군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "고흥군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "보성군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "화순군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "장흥군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "강진군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "해남군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "영암군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "무안군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "함평군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "영광군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "장성군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "완도군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "진도군",
+    },
+    {
+        wideAddr: "전라남도",
+        localAddr: "신안군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "포항시",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "경주시",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "김천시",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "안동시",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "구미시",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "영주시",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "영천시",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "상주시",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "문경시",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "경산시",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "군위군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "의성군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "청송군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "영양군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "영덕군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "청도군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "고령군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "성주군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "칠곡군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "예천군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "봉화군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "울진군",
+    },
+    {
+        wideAddr: "경상북도",
+        localAddr: "울릉군",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "창원시",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "진주시",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "통영시",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "사천시",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "김해시",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "밀양시",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "거제시",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "양산시",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "의령군",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "함안군",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "창녕군",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "고성군",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "남해군",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "하동군",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "산청군",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "함양군",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "거창군",
+    },
+    {
+        wideAddr: "경상남도",
+        localAddr: "합천군",
+    },
+    {
+        wideAddr: "제주특별자치도",
+        localAddr: "제주시",
+    },
+    {
+        wideAddr: "제주특별자치도",
+        localAddr: "서귀포시",
+    },
+];
+
 function fillDataListOption() {
     const dataList = document.querySelector("#address");
     const optionFragment = document.createDocumentFragment();
@@ -309,7 +997,7 @@ function fillDataListOption() {
         const option = document.createElement("option");
         option.value = item.join(" ");
         optionFragment.appendChild(option);
-    })
+    });
     dataList.appendChild(optionFragment);
 }
 
