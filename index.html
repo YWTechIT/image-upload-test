@@ -1,60 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="src/css/reset.css" />
+    <link rel="stylesheet" href="src/css/MakeDiv.css" />
+    <link rel="stylesheet" href="src/css/MakeImg.css" />
+    <link rel="stylesheet" href="src/css/MakeImgDiv.css" />
+    <link rel="stylesheet" href="src/css/UploadImage.css" />
+    <link rel="stylesheet" href="src/css/MakeInput.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="src/css/reset.css">
-  <link rel="stylesheet" href="src/css/MakeDiv.css">
-  <link rel="stylesheet" href="src/css/MakeImg.css">
-  <link rel="stylesheet" href="src/css/MakeImgDiv.css">
-  <link rel="stylesheet" href="src/css/UploadImage.css">
-  <link rel="stylesheet" href="src/css/MakeInput.css">
-</head>
+  <body>
+    <article class="container">
+      <form class="image-form" action="/upload">
+        <div class="image-content">
+          <div class="image-content__preview">
+            <!-- <p class="image-content__init">게시 한 사진 미리보기</p> -->
+          </div>
 
-<body>
-  <article class="container">
-    <form class="image-form" action="/upload">
-      <div class="image-content">
+          <div class="image-upload__gps">
+            <input
+              type="text"
+              list="address"
+              id="image-upload__input"
+              name="image-content__input"
+              class="image-upload__input"
+              placeholder="사진 촬영 장소"
+            />
+            <datalist id="address" class="image-content__datalist"></datalist>
+            <p class="event-test"></p>
+          </div>
 
-        <div class="image-content__preview">
-          <!-- <p class="image-content__init">게시 한 사진 미리보기</p> -->
-        </div>
+          <div class="image-content__completeBox">✅ 사진 업로드 완료</div>
 
-        <div class="image-upload__gps">
-          <input type="text" list="address" id="image-upload__input" name="image-content__input" class="image-upload__input" placeholder="사진 촬영 장소">
-          <datalist id="address" class="image-content__datalist"></datalist>
-          <p class="event-test"></p>
-        </div>
-        
-        <div class="image-content__completeBox">✅ 사진 업로드 완료</div>
-        
-        <label class="image-content__label" for="image-content__input">
-          <div class="image-content__inner">
-            <div class="image-content__text">드래그하거나 클릭하여 업로드
-              <input type="file" id="image-content__input" name="image-content__input" class="image-content__input"
-                accept="img/*" required multiple>
+          <label class="image-content__label" for="image-content__input">
+            <div class="image-content__inner">
+              <div class="image-content__text">
+                드래그하거나 클릭하여 업로드
+                <input
+                  type="file"
+                  id="image-content__input"
+                  name="image-content__input"
+                  class="image-content__input"
+                  accept="img/*"
+                  required
+                  multiple
+                />
               </div>
             </div>
-        </label>
+          </label>
 
-        <div class="image-content__info">
-          <p><input type="text" name="image-content__title" class="image-content__title" placeholder="게시글 제목"></p>
-          <p><textarea maxlength="100" name="image-content__desc" class="image-content__desc"
-              placeholder="게시글 설명(100자 이내)"></textarea></p>
+          <div class="image-content__info">
+            <p>
+              <input
+                type="text"
+                name="image-content__title"
+                class="image-content__title"
+                placeholder="게시글 제목"
+              />
+            </p>
+            <p>
+              <textarea
+                maxlength="100"
+                name="image-content__desc"
+                class="image-content__desc"
+                placeholder="게시글 설명(100자 이내)"
+              ></textarea>
+            </p>
+          </div>
         </div>
 
+        <!-- <input type="submit"> -->
+        <button type="submit" class="image-content__submit">제출</button>
+      </form>
+    </article>
 
-      </div>
-
-      <!-- <input type="submit"> -->
-      <button type="submit" class="image-content__submit">제출</button>
-    </form>
-  </article>
-
-  <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
-  <script src="./src/js/index.js"></script>
-</body>
-
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0602e9988471965e96177d8d36f06db0&libraries=services"
+    ></script>
+    <script src="./src/js/index.js"></script>
+  </body>
 </html>
