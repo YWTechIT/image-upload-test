@@ -64,10 +64,8 @@ function getEXIFData(img) {
   img.addEventListener("load", function () {
     EXIF.getData(this, async function () {
       const allMetaData = EXIF.getAllTags(this);
-      const GPSLatitude = EXIF.getTag(this, "GPSLatitude");
-      const GPSLatitudeRef = EXIF.getTag(this, "GPSLatitudeRef");
-      const GPSLongitude = EXIF.getTag(this, "GPSLongitude");
-      const GPSLongitudeRef = EXIF.getTag(this, "GPSLongitudeRef");
+      const { GPSLatitude, GPSLatitudeRef, GPSLongitude, GPSLongitudeRef } =
+        allMetaData;
 
       const latitude_decimal = GPSLatitude
         ? changeToDecimal(GPSLatitude, GPSLatitudeRef)
@@ -83,17 +81,18 @@ function getEXIFData(img) {
         GPSLongitude ? longitude_decimal : undefined,
       );
 
-      const [wide_addr, local_addr] = await getAddress(
-        longitude_decimal,
-        latitude_decimal,
-      );
-
-      document.querySelector(
-        "#image-upload__input",
-      ).value = `${wide_addr} ${local_addr}`;
+      showAddress(longitude_decimal, latitude_decimal);
     });
   });
   return img;
+}
+
+async function showAddress(long, lat) {
+  const [wide_addr, local_addr] = await getAddress(long, lat);
+
+  document.querySelector(
+    "#image-upload__input",
+  ).value = `${wide_addr} ${local_addr}`;
 }
 
 function changeToDecimal([d, m, s], direction) {
