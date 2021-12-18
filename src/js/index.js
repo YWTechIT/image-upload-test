@@ -13,10 +13,23 @@ function PreviewImage(e) {
     return;
   }
 
-  fileList.map((file, idx) => {
+  fileList.map((file) => {
     const reader = new FileReader();
-    reader.addEventListener("load", function (e) {
+
+    reader.addEventListener("load", async (e) => {
       const img = MakeImg(e);
+
+      try {
+        const [longitude, latitude] = await getGPSCoordinate(img);
+        const [wide_addr, local_addr] = await fetchAddressAPI(
+          latitude,
+          longitude,
+        );
+        updateLocation(wide_addr, local_addr);
+      } catch (e) {
+        console.log(e);
+      }
+
       const imgDiv = MakeImgDiv(img);
       const div = MakeDiv(imgDiv);
       previewZone.appendChild(div);
@@ -31,7 +44,7 @@ function MakeImg(e) {
   const img = document.createElement("img");
   img.classList.add("imgStyle");
   img.src = e.target.result;
-  return getEXIFData(img);
+  return img;
 }
 
 function MakeImgDiv(img) {
@@ -60,62 +73,64 @@ function HiddenDropZone() {
   dropZone.style.display = "none";
 }
 
-function getEXIFData(img) {
-  img.addEventListener("load", function () {
-    EXIF.getData(this, async function () {
-      const allMetaData = EXIF.getAllTags(this);
-      const GPSLatitude = EXIF.getTag(this, "GPSLatitude");
-      const GPSLatitudeRef = EXIF.getTag(this, "GPSLatitudeRef");
-      const GPSLongitude = EXIF.getTag(this, "GPSLongitude");
-      const GPSLongitudeRef = EXIF.getTag(this, "GPSLongitudeRef");
+function getGPSCoordinate(img) {
+  return new Promise((resolve, reject) => {
+    img.addEventListener("load", function () {
+      EXIF.getData(this, async function () {
+        const GPSLatitude = EXIF.getTag(this, "GPSLatitude");
+        const GPSLatitudeRef = EXIF.getTag(this, "GPSLatitudeRef");
+        const GPSLongitude = EXIF.getTag(this, "GPSLongitude");
+        const GPSLongitudeRef = EXIF.getTag(this, "GPSLongitudeRef");
 
-      const latitude_decimal = GPSLatitude
-        ? changeToDecimal(GPSLatitude, GPSLatitudeRef)
-        : undefined;
-      const longitude_decimal = GPSLongitude
-        ? changeToDecimal(GPSLongitude, GPSLongitudeRef)
-        : undefined;
-      console.log(
-        "Lati:",
-        GPSLatitude ? latitude_decimal : undefined,
-        "\n",
-        "Long:",
-        GPSLongitude ? longitude_decimal : undefined,
-      );
+        if (GPSLatitude === undefined || GPSLongitude === undefined) {
+          reject("GPS 정보가 없습니다.");
+          return;
+        }
 
-      const [wide_addr, local_addr] = await getAddress(
-        longitude_decimal,
-        latitude_decimal,
-      );
-
-      document.querySelector(
-        "#image-upload__input",
-      ).value = `${wide_addr} ${local_addr}`;
+        const [latitudeDecimal, longitudeDecimal] = [
+          convertCoordinateToDecimal(GPSLatitude, GPSLatitudeRef),
+          convertCoordinateToDecimal(GPSLongitude, GPSLongitudeRef),
+        ];
+        resolve([latitudeDecimal, longitudeDecimal]);
+      });
     });
   });
-  return img;
 }
 
-function changeToDecimal([d, m, s], direction) {
+function convertCoordinateToDecimal([d, m, s], direction) {
   const sign = direction === "S" || direction === "W" ? -1 : 1;
   return (sign * (d + m / 60 + s / 3600)).toFixed(8);
 }
 
-async function getAddress(x, y) {
-  const options = {
+function updateLocation(wide_addr, local_addr) {
+  const input = document.querySelector("#image-upload__input");
+  input.value = `${wide_addr} ${local_addr}`;
+}
+
+async function fetchAddressAPI(longitude, latitude) {
+  const request = {
     method: "GET",
     headers: {
-      Authorization: `KakaoAK 7e36ea0dbe597b31e36df40398278998`,
+      Authorization: `KakaoAK 4be5731b9445ebbbc4acf16e9d6f0588`,
     },
   };
-  const address_meta = await fetch(
-    `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${x}&y=${y}`,
-    options,
-  )
-    .then((type) => type.json())
-    .then((result) => result.documents[0]);
-  const { region_1depth_name, region_2depth_name } = address_meta;
-  return [region_1depth_name, region_2depth_name];
+
+  const URL = `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${longitude}&y=${latitude}`;
+  try {
+    const address = await fetch(URL, request)
+      .then((res) => res.json())
+      .then((res) => {
+        const { documents: regionType } = res;
+        const legalDivision = regionType[0];
+        return legalDivision;
+      });
+
+    const { region_1depth_name: wide_addr, region_2depth_name: local_addr } =
+      address;
+    return [wide_addr, local_addr];
+  } catch (e) {
+    console.log("API가 정상적으로 호출되지 않았습니다.");
+  }
 }
 
 const dummyAddress = [
