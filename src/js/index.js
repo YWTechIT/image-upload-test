@@ -73,6 +73,42 @@ function HiddenDropZone() {
   dropZone.style.display = "none";
 }
 
+const handleUpdate = (event) => {
+  const filesInfo = event.target.files;
+  const fileList = [...filesInfo];
+  const preview = document.querySelector(".image-content__preview");
+
+  if (filesInfo.length > 4) {
+    toast("사진은 최대 4장까지 올릴 수 있습니다.");
+    return;
+  }
+
+  fileList.forEach((file) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", async (event) => {
+      const img = Img(event);
+
+      try {
+        const [longitude, latitude] = await getGPSCoordinate(img);
+        const [wide_addr, local_addr] = await fetchAddressAPI(
+          latitude,
+          longitude,
+        );
+        updateLocation(wide_addr, local_addr);
+      } catch (e) {
+        console.log(e);
+      }
+
+      const imgDiv = ImgDiv(img);
+      const div = Div(imgDiv);
+      preview.append(div);
+    });
+    reader.readAsDataURL(file);
+  });
+  HiddenDropBox();
+  ShowCompleteBox();
+};
+
 function getGPSCoordinate(img) {
   return new Promise((resolve, reject) => {
     img.addEventListener("load", function () {
